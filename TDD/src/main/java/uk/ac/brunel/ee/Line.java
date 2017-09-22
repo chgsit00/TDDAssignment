@@ -106,13 +106,22 @@ public class Line {
 	}
 
 	private boolean canSlopeCalculated() {
+		Point point = points.get(0);
 		for (Iterator iterator = points.iterator(); iterator.hasNext();) {
-			Point point = (Point) iterator.next();
-			for (Iterator iterator2 = points.iterator(); iterator2.hasNext();) {
-				Point point1 = (Point) iterator2.next();
-				if (!point.equals(point1)) {
-					return true;
-				}
+			Point point1 = (Point) iterator.next();
+			if (!point.equals(point1)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private boolean canInterceptCalculated() {
+		Point point = points.get(0);
+		for (Iterator iterator = points.iterator(); iterator.hasNext();) {
+			Point point1 = (Point) iterator.next();
+			if (point.getX() != point1.getX()) {
+				return true;
 			}
 		}
 		return false;
@@ -120,7 +129,7 @@ public class Line {
 
 	public double intercept() throws RegressionFailedException {
 		if (!interceptDetermine) {
-			if (!canSlopeCalculated()) {
+			if (!canInterceptCalculated()) {
 				throw new RegressionFailedException();
 			}
 			List<Double> xValues = points.stream().map(v -> v.getX()).collect(Collectors.toList());
