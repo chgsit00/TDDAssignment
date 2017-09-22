@@ -47,8 +47,7 @@ public class Line {
 
 	@Override
 	public int hashCode() {
-		// TODO
-		return Objects.hash(this);
+		return Objects.hash(points.stream().map(p -> p.hashCode()).mapToInt(p -> p.intValue()).sum());
 	}
 
 	@Override
@@ -100,9 +99,21 @@ public class Line {
 			double bottom = getXup2Average(xValues) - (getAverage(xValues) * getAverage(xValues));
 			slope = top / bottom;
 			slopeDetermine = true;
-			// TODO Exception einbauen
 		}
 		return slope;
+	}
+
+	public double intercept() throws RegressionFailedException {
+		if (!interceptDetermine) {
+			if (!canInterceptCalculated()) {
+				throw new RegressionFailedException();
+			}
+			List<Double> xValues = points.stream().map(v -> v.getX()).collect(Collectors.toList());
+			List<Double> yValues = points.stream().map(v -> v.getY()).collect(Collectors.toList());
+			intercept = getAverage(yValues) - (slope * getAverage(xValues));
+			interceptDetermine = true;
+		}
+		return intercept;
 	}
 
 	private boolean canSlopeCalculated() {
@@ -127,18 +138,4 @@ public class Line {
 		return false;
 	}
 
-	public double intercept() throws RegressionFailedException {
-		if (!interceptDetermine) {
-			if (!canInterceptCalculated()) {
-				throw new RegressionFailedException();
-			}
-			List<Double> xValues = points.stream().map(v -> v.getX()).collect(Collectors.toList());
-			List<Double> yValues = points.stream().map(v -> v.getY()).collect(Collectors.toList());
-			intercept = getAverage(yValues) - (slope * getAverage(xValues));
-			interceptDetermine = true;
-			// TODO Exception
-		}
-		return intercept;
-
-	}
 }
