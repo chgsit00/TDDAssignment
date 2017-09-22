@@ -125,6 +125,8 @@ public class LineTest {
 	public void testIsValidWithManyPoints() {
 		Point[] points = getPointsExampleData();
 		Line line = new Line(points);
+		line.slope();
+		line.intercept();
 		assertTrue(line.isValid());
 	}
 
