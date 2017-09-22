@@ -72,11 +72,11 @@ public class Line {
 	}
 
 	private double getAverage(List<Double> values) {
-		return 1 / values.size() * values.stream().mapToDouble(v -> v.doubleValue()).sum();
+		return 1.0 / values.size() * values.stream().mapToDouble(v -> v.doubleValue()).sum();
 	}
 
 	private double getXup2Average(List<Double> values) {
-		return 1 / values.size() * values.stream().mapToDouble(v -> v.doubleValue() * v.doubleValue()).sum();
+		return 1.0 / values.size() * values.stream().mapToDouble(v -> v.doubleValue() * v.doubleValue()).sum();
 	}
 
 	private double getXYAverage(List<Point> points) {
@@ -84,7 +84,7 @@ public class Line {
 		// for (Point point : points) {
 		// temp += point.getX() * point.getY();
 		// }
-		return 1 / points.size()
+		return 1.0 / points.size()
 				* points.stream().map(p -> p.getX() * p.getY()).mapToDouble(v -> v.doubleValue()).sum();
 	}
 
