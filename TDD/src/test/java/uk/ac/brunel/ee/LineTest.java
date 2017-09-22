@@ -5,6 +5,19 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class LineTest {
+	
+	private Point[] getPointsExampleData() {
+		Point[] points = new Point[3];
+		points[0] = new Point(2.4, -2.4);
+		points[1] = new Point(-0.2, 8.9);
+		points[2] = new Point(-4.4, -2.4);
+		return points;
+	}
+	
+	//------------------
+	// Constructor Tests
+	//------------------
+		
 	@Test
 	public void testDefaultConstructor() {
 		Line line = new Line();
@@ -23,6 +36,10 @@ public class LineTest {
 		new Line(null);
 	}
 
+	//------------------
+	// Length and Add Tests
+	//------------------
+	
 	@Test
 	public void testAdd() {
 		Line line = new Line();
@@ -30,20 +47,23 @@ public class LineTest {
 		assertEquals(1, line.length());
 	}
 
+	@Test
+	public void testAddWithNull() {
+		Line line = new Line();
+		line.add(null);
+		assertEquals(0, line.length());
+	}
+	
 	public void testLength() {
 		Point[] points = getPointsExampleData();
 		Line line = new Line(points);
 		assertEquals(3, line.length());
 	}
 
-	private Point[] getPointsExampleData() {
-		Point[] points = new Point[3];
-		points[0] = new Point(2.4, -2.4);
-		points[1] = new Point(-0.2, 8.9);
-		points[2] = new Point(-4.4, -2.4);
-		return points;
-	}
-
+	//------------------
+	// equals Tests
+	//------------------
+	
 	@Test
 	public void testEqualsWithExactlySameLineObject() {
 		Point[] points = getPointsExampleData();
@@ -90,6 +110,10 @@ public class LineTest {
 		assertFalse(line.equals(new Point(3.9, 4.2)));
 	}
 
+	//------------------
+	// hashCode Tests
+	//------------------
+	
 	@Test
 	public void testHashCodeWithTrueExpected() {
 		Line line = new Line();
@@ -105,6 +129,10 @@ public class LineTest {
 		assertNotEquals(line.hashCode(), line2.hashCode());
 	}
 
+	//------------------
+	// toString Tests
+	//------------------
+	
 	@Test
 	public void testToString() {
 		Point[] points = getPointsExampleData();
@@ -113,6 +141,10 @@ public class LineTest {
 		assertEquals(expectedOutout, line.toString());
 	}
 
+	//------------------
+	// isValid Tests
+	//------------------
+	
 	@Test
 	public void testIsValidWithZeroPoints() {
 		Line line = new Line();
@@ -144,6 +176,10 @@ public class LineTest {
 		assertFalse(line.isValid());
 	}
 	
+	//------------------
+	// Slope Tests
+	//------------------
+	
 	@Test
 	public void testSlopeWithValidPoints() throws RegressionFailedException{
 		Point[] points = new Point[2];
@@ -162,6 +198,10 @@ public class LineTest {
 		Line line = new Line(points);
 		line.slope();
 	}
+	
+	//------------------
+	// Intercept Tests
+	//------------------
 	
 	@Test
 	public void testInterceptIWithValidPoints() throws RegressionFailedException{
