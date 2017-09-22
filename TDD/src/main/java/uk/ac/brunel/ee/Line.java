@@ -19,7 +19,7 @@ public class Line {
 	}
 
 	public Line(Point[] plist) {
-		if (plist != null) {
+		if (null != plist) {
 			points = Arrays.asList(plist);
 		}
 	}
