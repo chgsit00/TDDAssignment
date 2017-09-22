@@ -108,6 +108,9 @@ public class Line {
 			if (!canInterceptCalculated()) {
 				throw new RegressionFailedException();
 			}
+			if (!slopeDetermine) {
+				slope();
+			}
 			List<Double> xValues = points.stream().map(v -> v.getX()).collect(Collectors.toList());
 			List<Double> yValues = points.stream().map(v -> v.getY()).collect(Collectors.toList());
 			intercept = getAverage(yValues) - (slope * getAverage(xValues));
