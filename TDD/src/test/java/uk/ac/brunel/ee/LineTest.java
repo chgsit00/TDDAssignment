@@ -8,21 +8,21 @@ public class LineTest {
 	@Test
 	public void testDefaultConstructor() {
 		Line line = new Line();
-		assertTrue(line.getPoints().length == 0);
+		assertTrue(line.length() == 0);
 	}
 
 	@Test
 	public void testConstructor() {
 		Point[] points = getPointsExampleData();
 		Line line = new Line(points);
-		assertArrayEquals(points, line.getPoints());
+		assertEquals(3, line.length());
 	}
 
 	@Test
 	public void testAdd() {
 		Line line = new Line();
 		line.add(new Point());
-		assertEquals(1, line.getPoints().length);
+		assertEquals(1, line.length());
 	}
 
 	public void testLength() {
@@ -113,26 +113,26 @@ public class LineTest {
 		Line line = new Line();
 		assertFalse(line.isValid());
 	}
-	
+
 	@Test
 	public void testIsValidWithOnePoint() {
 		Line line = new Line();
 		line.add(new Point(2.1, 4.3));
 		assertFalse(line.isValid());
 	}
-	
+
 	@Test
-	public void testIsValidWithManyPoints(){
+	public void testIsValidWithManyPoints() {
 		Point[] points = getPointsExampleData();
 		Line line = new Line(points);
 		assertTrue(line.isValid());
 	}
-	
+
 	@Test
-	public void testIsValidWithTwoPointsWithSameCoordinates(){
+	public void testIsValidWithTwoPointsWithSameCoordinates() {
 		Point[] points = new Point[2];
-		points[0] = new Point(2.1,2.1);
-		points[1] = new Point(2.1,2.1);
+		points[0] = new Point(2.1, 2.1);
+		points[1] = new Point(2.1, 2.1);
 		Line line = new Line(points);
 		assertFalse(line.isValid());
 	}
