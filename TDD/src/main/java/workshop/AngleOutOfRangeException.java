@@ -1,4 +1,4 @@
-package uk.ac.brunel.ee;
+package workshop;
 
 public class AngleOutOfRangeException extends Exception {
 

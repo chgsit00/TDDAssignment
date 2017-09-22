@@ -1,4 +1,4 @@
-package uk.ac.brunel.ee;
+package workshop;
 
 import static org.junit.Assert.*;
 

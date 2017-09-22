@@ -1,4 +1,4 @@
-package uk.ac.brunel.ee;
+package workshop;
 
 import java.util.ArrayList;
 import java.util.Arrays;
