@@ -11,8 +11,8 @@ public class Line {
 	private List<Point> points;
 	private double slope;
 	private double intercept;
-	boolean slopeDetermine = false;
-	boolean interceptDetermine = false;
+	private boolean slopeDetermine = false;
+	private boolean interceptDetermine = false;
 
 	public Line() {
 		points = new ArrayList<>();
@@ -106,6 +106,7 @@ public class Line {
 			List<Double> xValues = points.stream().map(v -> v.getX()).collect(Collectors.toList());
 			List<Double> yValues = points.stream().map(v -> v.getY()).collect(Collectors.toList());
 			intercept = getAverage(yValues) - (slope * getAverage(xValues));
+			interceptDetermine = true;
 			// TODO Exception
 		}
 		return intercept;
