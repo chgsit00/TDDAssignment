@@ -17,6 +17,11 @@ public class LineTest {
 		Line line = new Line(points);
 		assertEquals(3, line.length());
 	}
+	
+	@Test
+	public void testConstructorWithNull() {
+		new Line(null);
+	}
 
 	@Test
 	public void testAdd() {
@@ -122,7 +127,7 @@ public class LineTest {
 	}
 
 	@Test
-	public void testIsValidWithManyPoints() {
+	public void testIsValidWithManyPoints() throws RegressionFailedException {
 		Point[] points = getPointsExampleData();
 		Line line = new Line(points);
 		line.slope();
@@ -137,5 +142,43 @@ public class LineTest {
 		points[1] = new Point(2.1, 2.1);
 		Line line = new Line(points);
 		assertFalse(line.isValid());
+	}
+	
+	@Test
+	public void testSlopeWithValidPoints() throws RegressionFailedException{
+		Point[] points = new Point[2];
+		points[0] = new Point(0, 0);
+		points[1] = new Point(1, 1);
+		Line line = new Line(points);
+		double slope = line.slope();
+		assertEquals(1, slope, 0);
+	}
+	
+	@Test(expected = RegressionFailedException.class)
+	public void testSlopeWithInvalidPoints() throws RegressionFailedException{
+		Point[] points = new Point[2];
+		points[0] = new Point(0, 0);
+		points[1] = new Point(0, 0);
+		Line line = new Line(points);
+		line.slope();
+	}
+	
+	@Test
+	public void testInterceptIWithValidPoints() throws RegressionFailedException{
+		Point[] points = new Point[2];
+		points[0] = new Point(0, 0);
+		points[1] = new Point(1, 1);
+		Line line = new Line(points);
+		double intercept = line.intercept();
+		assertEquals(0, intercept, 0);
+	}
+
+	@Test(expected = RegressionFailedException.class)
+	public void testInterceptIWithInvalidPoints() throws RegressionFailedException{
+		Point[] points = new Point[2];
+		points[0] = new Point(0, 0);
+		points[1] = new Point(0, 1);
+		Line line = new Line(points);
+		line.intercept();
 	}
 }
