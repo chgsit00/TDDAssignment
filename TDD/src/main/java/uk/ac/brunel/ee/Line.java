@@ -61,6 +61,7 @@ public class Line {
 				stringBuilder.append(",\n ");
 			}
 		}
+		stringBuilder.append(")");
 		return stringBuilder.toString();
 	}
 
@@ -80,10 +81,6 @@ public class Line {
 	}
 
 	private double getXYAverage(List<Point> points) {
-		// double temp = 0;
-		// for (Point point : points) {
-		// temp += point.getX() * point.getY();
-		// }
 		return 1.0 / points.size()
 				* points.stream().map(p -> p.getX() * p.getY()).mapToDouble(v -> v.doubleValue()).sum();
 	}
