@@ -66,7 +66,17 @@ public class Line {
 	}
 
 	public boolean isValid() {
-		if (points.size() <= 1 || !interceptDetermine || !slopeDetermine) {
+		if (points.size() <= 1) {
+			return false;
+		}
+		try {
+			if (!interceptDetermine) {
+				intercept();
+			}
+			if (!slopeDetermine) {
+				slope();
+			}
+		} catch (RegressionFailedException e) {
 			return false;
 		}
 		return true;
