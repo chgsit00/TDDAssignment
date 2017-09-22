@@ -58,15 +58,14 @@ public class Line {
 			Point point = (Point) iterator.next();
 			stringBuilder.append("( " + point.getX() + ", " + point.getY() + " )");
 			if (iterator.hasNext()) {
-				stringBuilder.append(",\n");
+				stringBuilder.append(",\n ");
 			}
 		}
 		return stringBuilder.toString();
 	}
 
 	public boolean isValid() {
-		// TODO zweite bedingung
-		if (points.size() <= 1) {
+		if (points.size() <= 1 || !interceptDetermine || !slopeDetermine) {
 			return false;
 		}
 		return true;
