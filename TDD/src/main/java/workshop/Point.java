@@ -1,5 +1,7 @@
 package workshop;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Objects;
 
 public class Point {
@@ -34,11 +36,18 @@ public class Point {
 
 	@Override
 	public boolean equals(Object o) {
+		// Easiest case
 		if (o == this) {
 			return true;
 		}
+		// if the given object isn't a point, there is no need for further
+		// operations
 		if (o instanceof Point) {
 			Point p = (Point) o;
+			// Make use of the hashCode method
+			if (p.hashCode() == this.hashCode()) {
+				return true;
+			}
 			return (p.x == this.x && p.y == this.y);
 		}
 		return false;
@@ -46,21 +55,26 @@ public class Point {
 
 	@Override
 	public int hashCode() {
+		// Hash should represent the point's coordinates
+		// So two points with the same coordinates should generate the same
+		// hash-value
 		return Objects.hash(this.x, this.y);
 	}
 
 	@Override
 	public String toString() {
+		NumberFormat formatter = new DecimalFormat("#.####E00");
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("( ");
-		stringBuilder.append(this.x);
+		stringBuilder.append(formatter.format(this.x));
 		stringBuilder.append(", ");
-		stringBuilder.append(this.y);
+		stringBuilder.append(formatter.format(this.x));
 		stringBuilder.append(" )");
 		return stringBuilder.toString();
 	}
 
 	public double norm() {
+		// Pythagoras
 		return Math.sqrt(this.x * this.x + this.y * this.y);
 	}
 
@@ -75,7 +89,7 @@ public class Point {
 	}
 
 	public void displace(Point p) {
-		this.x+=p.x;
-		this.y+=p.y;
+		this.x += p.x;
+		this.y += p.y;
 	}
 }

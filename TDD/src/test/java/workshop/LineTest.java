@@ -6,6 +6,10 @@ import org.junit.Test;
 
 public class LineTest {
 	
+	//-----------------------------------------------
+	// generates some points for different tests
+	//-----------------------------------------------
+	
 	private Point[] getPointsExampleData() {
 		Point[] points = new Point[3];
 		points[0] = new Point(2.4, -2.4);
@@ -14,9 +18,9 @@ public class LineTest {
 		return points;
 	}
 	
-	//------------------
+	//-----------------------------------------------
 	// Constructor Tests
-	//------------------
+	//-----------------------------------------------
 		
 	@Test
 	public void testDefaultConstructor() {
@@ -36,9 +40,9 @@ public class LineTest {
 		new Line(null);
 	}
 
-	//------------------
-	// Length and Add Tests
-	//------------------
+	//-----------------------------------------------
+	// length() and add() Tests
+	//-----------------------------------------------
 	
 	@Test
 	public void testAdd() {
@@ -60,9 +64,9 @@ public class LineTest {
 		assertEquals(3, line.length());
 	}
 
-	//------------------
-	// equals Tests
-	//------------------
+	//-----------------------------------------------
+	// equals() Tests
+	//-----------------------------------------------
 	
 	@Test
 	public void testEqualsWithExactlySameLineObject() {
@@ -110,9 +114,9 @@ public class LineTest {
 		assertFalse(line.equals(new Point(3.9, 4.2)));
 	}
 
-	//------------------
-	// hashCode Tests
-	//------------------
+	//-----------------------------------------------
+	// hashCode() Tests
+	//-----------------------------------------------
 	
 	@Test
 	public void testHashCodeWithTrueExpected() {
@@ -129,21 +133,24 @@ public class LineTest {
 		assertNotEquals(line.hashCode(), line2.hashCode());
 	}
 
-	//------------------
-	// toString Tests
-	//------------------
+	//-----------------------------------------------
+	// toString() Tests
+	//-----------------------------------------------
 	
 	@Test
 	public void testToString() {
-		Point[] points = getPointsExampleData();
+		Point[] points = new Point[3];
+		points[0] = new Point(0.00000021, 12345.1246);
+		points[1] = new Point(-0.2556785, 1.1246365);
+		points[2] = new Point(-235.25853467, -1.1246);
 		Line line = new Line(points);
 		String expectedOutout = "(( 2.4, -2.4 ),\n ( -0.2, 8.9 ),\n ( -4.4, -2.4 ))";
 		assertEquals(expectedOutout, line.toString());
 	}
 
-	//------------------
-	// isValid Tests
-	//------------------
+	//-----------------------------------------------
+	// isValid() Tests
+	//-----------------------------------------------
 	
 	@Test
 	public void testIsValidWithZeroPoints() {
@@ -176,9 +183,9 @@ public class LineTest {
 		assertFalse(line.isValid());
 	}
 	
-	//------------------
+	//-----------------------------------------------
 	// Slope Tests
-	//------------------
+	//-----------------------------------------------
 	
 	@Test
 	public void testSlopeWithValidPoints() throws RegressionFailedException{
@@ -195,13 +202,15 @@ public class LineTest {
 		Point[] points = new Point[2];
 		points[0] = new Point(0, 0);
 		points[1] = new Point(0, 0);
+		// the points have the same coordinates. 
+		// So the slope can't be calculated with these two.
 		Line line = new Line(points);
 		line.slope();
 	}
 	
-	//------------------
+	//-----------------------------------------------
 	// Intercept Tests
-	//------------------
+	//-----------------------------------------------
 	
 	@Test
 	public void testInterceptIWithValidPoints() throws RegressionFailedException{
@@ -218,6 +227,8 @@ public class LineTest {
 		Point[] points = new Point[2];
 		points[0] = new Point(0, 0);
 		points[1] = new Point(0, 1);
+		// with these points the line lies on the y-axis. therefore slope can't be calculated. 
+		// And without slope, there is no intercept.
 		Line line = new Line(points);
 		line.intercept();
 	}
