@@ -29,7 +29,7 @@ public class LineTest {
 	}
 
 	@Test
-	public void testConstructor() {
+	public void testAlternateConstructor() {
 		Point[] points = getPointsExampleData();
 		Line line = new Line(points);
 		assertEquals(3, line.length());
@@ -37,7 +37,8 @@ public class LineTest {
 	
 	@Test
 	public void testConstructorWithNull() {
-		new Line(null);
+		Line line = new Line(null);
+		assertTrue(line.length() == 0);
 	}
 
 	//-----------------------------------------------
@@ -169,8 +170,6 @@ public class LineTest {
 	public void testIsValidWithManyPoints() throws RegressionFailedException {
 		Point[] points = getPointsExampleData();
 		Line line = new Line(points);
-		line.slope();
-		line.intercept();
 		assertTrue(line.isValid());
 	}
 
@@ -202,7 +201,7 @@ public class LineTest {
 		Point[] points = new Point[2];
 		points[0] = new Point(0, 0);
 		points[1] = new Point(0, 0);
-		// the points have the same coordinates. 
+		// these points have the same coordinates. 
 		// So the slope can't be calculated with these two.
 		Line line = new Line(points);
 		line.slope();

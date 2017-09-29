@@ -14,6 +14,7 @@ public class Point {
 	}
 
 	public Point(double x, double y) {
+		assert(!Double.isNaN(x) && !Double.isNaN(y));
 		this.x = x;
 		this.y = y;
 	}
@@ -23,6 +24,7 @@ public class Point {
 	}
 
 	public void setX(double x) {
+		assert(!Double.isNaN(x));
 		this.x = x;
 	}
 
@@ -31,6 +33,7 @@ public class Point {
 	}
 
 	public void setY(double y) {
+		assert(!Double.isNaN(y));
 		this.y = y;
 	}
 
@@ -79,7 +82,8 @@ public class Point {
 	}
 
 	public void rotate(double theta) throws AngleOutOfRangeException {
-		if (theta < -180.0 || theta > 180.0) {
+		// theta must be an number
+		if (Double.isNaN(theta) || theta < -180.0 || theta > 180.0) {
 			throw new AngleOutOfRangeException();
 		}
 		double newX = this.x * Math.cos(theta) - this.y * Math.sin(theta);
