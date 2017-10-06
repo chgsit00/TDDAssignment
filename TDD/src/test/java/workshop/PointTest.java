@@ -6,7 +6,7 @@ import org.junit.Test;
 public class PointTest {
 
 	// ------------------
-	// Constructor Tests
+	// Default Constructor Tests
 	// ------------------
 	@Test
 	public void testDefaultConstructor() {
@@ -15,6 +15,9 @@ public class PointTest {
 		Assert.assertEquals(0.0, point.getY(), 0);
 	}
 
+	// ------------------
+	// Default Constructor Tests
+	// ------------------
 	@Test
 	public void testAlternateConstructor() {
 		double x = 1.7;
@@ -23,7 +26,7 @@ public class PointTest {
 		Assert.assertEquals(x, point.getX(), 0);
 		Assert.assertEquals(y, point.getY(), 0);
 	}
-	
+
 	// ------------------
 	// Getter and Setter Tests
 	// ------------------
@@ -49,30 +52,47 @@ public class PointTest {
 	// Equals Test
 	// ------------------
 	@Test
-	public void testEquals() {
+	public void testEqualsSamePoints() {
+		Point point1 = new Point(1.7, 2.7);
+		Assert.assertTrue(point1.equals(point1));
+	}
+	
+	@Test
+	public void testEqualsDifferentPointsWithSameCoordinates() {
 		Point point1 = new Point(1.7, 2.7);
 		Point point2 = new Point(1.7, 2.7);
 		Assert.assertTrue(point1.equals(point2));
-		Point point3 = new Point(1.7, 3.7);
-		Point point4 = new Point(1.7, 2.7);
-		Assert.assertFalse(point3.equals(point4));
+	}
+
+	@Test
+	public void testEqualsDifferentPoints() {
+		Point point1 = new Point(1.7, 3.7);
+		Point point2 = new Point(1.7, 2.7);
+		Assert.assertFalse(point1.equals(point2));
+	}
+
+	@Test
+	public void testEqualsWithOnePointNull() {
+		Point point1 = new Point(1.7, 3.7);
+		Point point2 = null;
+		Assert.assertFalse(point1.equals(point2));
 	}
 
 	// ------------------
 	// HashCode Tests
 	// ------------------
 	@Test
-	public void testHashCodeTrue() {
+	public void testHashCodeSamePoints() {
 		Point point1 = new Point(1.7, 2.7);
 		Point point2 = new Point(1.7, 2.7);
-		Assert.assertTrue(point1.hashCode() == point2.hashCode());
+		Assert.assertEquals(point1.hashCode(), point2.hashCode());
 	}
 
 	@Test
-	public void testHashCodeFalse() {
-		Point point3 = new Point(1.7, 3.7);
-		Point point4 = new Point(1.7, 2.7);
-		Assert.assertFalse(point3.hashCode() == point4.hashCode());
+	public void testHashCodeDifferentPoints() {
+		Point point1 = new Point(1.7, 3.7);
+		Point point2 = new Point(1.7, 2.7);
+		Assert.assertNotEquals(point1.hashCode(), point2.hashCode());
 	}
 
 	// ------------------
@@ -91,21 +111,21 @@ public class PointTest {
 	public void testNorm() {
 		Point point = new Point(1.7, 2.7);
 		double distance = 3.1906112267087634;
-		Assert.assertTrue(distance == point.norm());
+		Assert.assertEquals(distance, point.norm(), 0);
 	}
 
 	@Test
 	public void testNormWithOneMinus() {
 		Point point = new Point(-1.7, 2.7);
 		double distance = 3.1906112267087634;
-		Assert.assertTrue(distance == point.norm());
+		Assert.assertEquals(distance, point.norm(), 0);
 	}
 
 	@Test
 	public void testNormWithTwoMinus() {
 		Point point = new Point(-1.7, -2.7);
 		double distance = 3.1906112267087634;
-		Assert.assertTrue(distance == point.norm());
+		Assert.assertEquals(distance, point.norm(), 0);
 	}
 
 	// ------------------
@@ -114,9 +134,12 @@ public class PointTest {
 	@Test(expected = AngleOutOfRangeException.class)
 	public void testRotateWithException() throws AngleOutOfRangeException {
 		Point point = new Point(3.5, 0);
+		// max rotation is +/-180 above/under that an AngleOutOfRangeException should
+		// occur.
 		point.rotate(200);
 	}
 
+	@Test
 	public void testRotatePlus90() throws AngleOutOfRangeException {
 		Point point = new Point(3.5, 0);
 		point.rotate(90);
@@ -126,6 +149,7 @@ public class PointTest {
 		Assert.assertEquals(y, point.getY(), 0);
 	}
 
+	@Test
 	public void testRotateMinus90() throws AngleOutOfRangeException {
 		Point point = new Point(3.5, 0);
 		point.rotate(-90);
@@ -139,13 +163,53 @@ public class PointTest {
 	// Displace Tests
 	// ------------------
 	@Test
+	public void testDisplaceRight() {
+		Point point = new Point(1.7, 2.7);
+		point.displace(new Point(1.3, 0));
+		double x = 3;
+		double y = 2.7;
+		Assert.assertEquals(Math.ulp(x), Math.ulp(point.getX()), 0);
+		Assert.assertEquals(Math.ulp(y), Math.ulp(point.getY()), 0);
+	}
+
+	@Test
+	public void testDisplaceLeft() {
+		Point point = new Point(1.7, 2.7);
+		point.displace(new Point(-1.3, 0));
+		double x = 0.4;
+		double y = 2.7;
+		Assert.assertEquals(Math.ulp(x), Math.ulp(point.getX()), 0);
+		Assert.assertEquals(Math.ulp(y), Math.ulp(point.getY()), 0);
+	}
+
+	@Test
+	public void testDisplaceTop() {
+		Point point = new Point(1.7, 2.7);
+		point.displace(new Point(0, 2.3));
+		double x = 1.7;
+		double y = 5;
+		Assert.assertEquals(Math.ulp(x), Math.ulp(point.getX()), 0);
+		Assert.assertEquals(Math.ulp(y), Math.ulp(point.getY()), 0);
+	}
+
+	@Test
+	public void testDisplaceDown() {
+		Point point = new Point(1.7, 2.7);
+		point.displace(new Point(0, -2.3));
+		double x = 1.7;
+		double y = 0.4;
+		Assert.assertEquals(Math.ulp(x), Math.ulp(point.getX()), 0);
+		Assert.assertEquals(Math.ulp(y), Math.ulp(point.getY()), 0);
+	}
+
+	@Test
 	public void testDisplaceTopRight() {
 		Point point = new Point(1.7, 2.7);
 		point.displace(new Point(1.3, 2.3));
 		double x = 3;
 		double y = 5;
-		Assert.assertEquals(x, point.getX(), 0);
-		Assert.assertEquals(y, point.getY(), 0);
+		Assert.assertEquals(Math.ulp(x), Math.ulp(point.getX()), 0);
+		Assert.assertEquals(Math.ulp(y), Math.ulp(point.getY()), 0);
 	}
 
 	@Test
@@ -154,8 +218,17 @@ public class PointTest {
 		point.displace(new Point(-1.3, -2.3));
 		double x = 0.4;
 		double y = 0.4;
-		Assert.assertEquals(x, point.getX(), 000000.1);
-		Assert.assertEquals(y, point.getY(), 000000.1);
+		Assert.assertEquals(Math.ulp(x), Math.ulp(point.getX()), 0);
+		Assert.assertEquals(Math.ulp(y), Math.ulp(point.getY()), 0);
 	}
 
+	@Test
+	public void testDisplaceWithoutChange() {
+		Point point = new Point(1.7, 2.7);
+		point.displace(new Point(0, 0));
+		double x = 1.7;
+		double y = 2.7;
+		Assert.assertEquals(Math.ulp(x), Math.ulp(point.getX()), 0);
+		Assert.assertEquals(Math.ulp(y), Math.ulp(point.getY()), 0);
+	}
 }
