@@ -20,7 +20,9 @@ public class Line {
 
 	public Line(Point[] plist) {
 		if (null != plist) {
-			points = Arrays.asList(plist);
+			points = Arrays.asList(plist).stream().filter(p -> p != null).collect(Collectors.toList());
+		} else {
+			points = new ArrayList<>();
 		}
 	}
 
