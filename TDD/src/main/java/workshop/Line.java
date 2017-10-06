@@ -56,7 +56,7 @@ public class Line {
 		stringBuilder.append("(");
 		for (Iterator iterator = points.iterator(); iterator.hasNext();) {
 			Point point = (Point) iterator.next();
-			stringBuilder.append("( " + point.getX() + ", " + point.getY() + " )");
+			stringBuilder.append(point.toString());
 			if (iterator.hasNext()) {
 				stringBuilder.append(",\n ");
 			}

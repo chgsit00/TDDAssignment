@@ -23,7 +23,7 @@ public class PointTest {
 		Assert.assertEquals(x, point.getX(), 0);
 		Assert.assertEquals(y, point.getY(), 0);
 	}
-
+	
 	// ------------------
 	// Getter and Setter Tests
 	// ------------------
@@ -81,7 +81,7 @@ public class PointTest {
 	@Test
 	public void testToString() {
 		Point point = new Point(1.7, 2.7);
-		Assert.assertEquals("test the toString-Methode", "( 1.7, 2.7 )", point.toString());
+		Assert.assertEquals("test the toString-Methode", "( +1.7000E+00, +2.7000E+00 )", point.toString());
 	}
 
 	// ------------------

@@ -2,6 +2,7 @@ package workshop;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 import java.util.Objects;
 
 public class Point {
@@ -14,7 +15,7 @@ public class Point {
 	}
 
 	public Point(double x, double y) {
-		assert(!Double.isNaN(x) && !Double.isNaN(y));
+		assert (!Double.isNaN(x) && !Double.isNaN(y));
 		this.x = x;
 		this.y = y;
 	}
@@ -24,7 +25,7 @@ public class Point {
 	}
 
 	public void setX(double x) {
-		assert(!Double.isNaN(x));
+		assert (!Double.isNaN(x));
 		this.x = x;
 	}
 
@@ -33,7 +34,7 @@ public class Point {
 	}
 
 	public void setY(double y) {
-		assert(!Double.isNaN(y));
+		assert (!Double.isNaN(y));
 		this.y = y;
 	}
 
@@ -66,12 +67,11 @@ public class Point {
 
 	@Override
 	public String toString() {
-		NumberFormat formatter = new DecimalFormat("#.####E00");
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("( ");
-		stringBuilder.append(formatter.format(this.x));
+		stringBuilder.append(String.format(Locale.ROOT, "%+2.4E", this.x));
 		stringBuilder.append(", ");
-		stringBuilder.append(formatter.format(this.x));
+		stringBuilder.append(String.format(Locale.ROOT, "%+2.4E", this.y));
 		stringBuilder.append(" )");
 		return stringBuilder.toString();
 	}
