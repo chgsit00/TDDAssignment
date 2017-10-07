@@ -56,8 +56,8 @@ public class Line {
 	public String toString() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("(");
-		for (Iterator iterator = points.iterator(); iterator.hasNext();) {
-			Point point = (Point) iterator.next();
+		for (Iterator<Point> iterator = points.iterator(); iterator.hasNext();) {
+			Point point = iterator.next();
 			stringBuilder.append(point.toString());
 			if (iterator.hasNext()) {
 				stringBuilder.append(",\n ");
@@ -130,8 +130,8 @@ public class Line {
 
 	private boolean canSlopeCalculated() {
 		Point point = points.get(0);
-		for (Iterator iterator = points.iterator(); iterator.hasNext();) {
-			Point point1 = (Point) iterator.next();
+		for (Iterator<Point> iterator = points.iterator(); iterator.hasNext();) {
+			Point point1 = iterator.next();
 			if (!point.equals(point1)) {
 				return true;
 			}
@@ -141,8 +141,8 @@ public class Line {
 
 	private boolean canInterceptCalculated() {
 		Point point = points.get(0);
-		for (Iterator iterator = points.iterator(); iterator.hasNext();) {
-			Point point1 = (Point) iterator.next();
+		for (Iterator<Point> iterator = points.iterator(); iterator.hasNext();) {
+			Point point1 = iterator.next();
 			if (point.getX() != point1.getX()) {
 				return true;
 			}
