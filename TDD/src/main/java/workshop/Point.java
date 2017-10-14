@@ -1,7 +1,6 @@
 package workshop;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import java.awt.geom.AffineTransform;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -86,13 +85,19 @@ public class Point {
 		if (Double.isNaN(theta) || theta < -180.0 || theta > 180.0) {
 			throw new AngleOutOfRangeException();
 		}
-		double newX = this.x * Math.cos(theta) - this.y * Math.sin(theta);
-		double newY = this.x * Math.sin(theta) + this.y * Math.cos(theta);
+		double[] pt = {this.x, this.y};
+		AffineTransform.getRotateInstance(Math.toRadians(theta), 0, 0)
+		  .transform(pt, 0, pt, 0, 1); // specifying to use this double[] to hold coords
+		double newX = pt[0];
+		double newY = pt[1];
 		this.x = newX;
 		this.y = newY;
 	}
 
 	public void displace(Point p) {
+		if(p == null){
+			return;
+		}
 		this.x += p.x;
 		this.y += p.y;
 	}
