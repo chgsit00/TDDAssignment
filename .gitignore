@@ -3,3 +3,7 @@
 RemoteSystemsTempFiles
 target
 *.classpath
+TDD/src/main/java/workshop/Line.ucls
+TDD/src/main/java/workshop/Line.png
+TDD/src/main/java/workshop/DataAnalyzer.ucls
+TDD/src/main/java/workshop/DataAnalyzer.png
