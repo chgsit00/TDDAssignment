@@ -19,8 +19,8 @@ import uk.ac.brunel.ee.UnreadException;
 import uk.ac.brunel.ee.lineRead;
 
 public class DataAnalyzer {
-	private static double validLines = 0;
-	private static double invalidLines = 0;
+	private static int validLines = 0;
+	private static int invalidLines = 0;
 	private static double numberOfPoints = 0;
 	private static List<Double> allSlopes;
 	private static List<Double> allIntercepts;
@@ -30,13 +30,19 @@ public class DataAnalyzer {
 	 */
 	public static void main(String[] args) {
 		DataAnalyzer dataAnalyzer = new DataAnalyzer();
-		List<Line> lines = dataAnalyzer.getAllLinesWithAllPoints("data_short.dat");
+		List<Line> lines = dataAnalyzer.getAllLinesWithAllPoints("data_long.dat");
+		Date start = new Date();
 		// valid und invalid lines zählen
 		dataAnalyzer.getInformations(lines);
 		dataAnalyzer.printInformations();
+		Date end = new Date();
+		long begin = start.getTime();
+		long fin = end.getTime();
+		System.out.println("processing time is " + (fin - begin) + " milliseconds");
 	}
 
 	private void printInformations() {
+		System.out.println("Total Lines: " + (validLines + invalidLines));
 		System.out.println("Valid Lines: " + validLines);
 		System.out.println("Invalid Lines: " + invalidLines);
 		System.out.println("Average Points per valid Line: " + (numberOfPoints / validLines));
@@ -117,7 +123,7 @@ public class DataAnalyzer {
 		Date end = new Date();
 		long begin = start.getTime();
 		long fin = end.getTime();
-		System.out.println("run time is " + (fin - begin) + " milliseconds");
+		System.out.println("read time is " + (fin - begin) + " milliseconds");
 		return lines;
 	}
 }

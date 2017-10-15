@@ -42,7 +42,7 @@ public class Line {
 	public boolean equals(Object o) {
 		if (o instanceof Line && ((Line) o).points.size() == points.size()) {
 			List<Point> otherPoints = ((Line) o).points;
-			return points.containsAll(otherPoints);
+			return points.containsAll(otherPoints) && otherPoints.containsAll(points);
 		}
 		return false;
 	}
@@ -84,6 +84,29 @@ public class Line {
 		return true;
 	}
 
+	public double slope() throws RegressionFailedException {
+		if (!slopeDetermine) {
+			if (!canSlopeCalculated()) {
+				throw new RegressionFailedException();
+			}
+			slope = calculateSlope();
+		}
+		return slope;
+	}
+
+	public double intercept() throws RegressionFailedException {
+		if (!interceptDetermine) {
+			if (!canInterceptCalculated()) {
+				throw new RegressionFailedException();
+			}
+			if (!slopeDetermine) {
+				slope();
+			}
+			intercept = calculateIntercept();
+		}
+		return intercept;
+	}
+
 	private double getAverage(List<Double> values) {
 		return 1.0 / values.size() * values.stream().mapToDouble(v -> v.doubleValue()).sum();
 	}
@@ -97,35 +120,20 @@ public class Line {
 				* points.stream().map(p -> p.getX() * p.getY()).mapToDouble(v -> v.doubleValue()).sum();
 	}
 
-	public double slope() throws RegressionFailedException {
-		if (!slopeDetermine) {
-			if (!canSlopeCalculated()) {
-				throw new RegressionFailedException();
-			}
-			List<Double> xValues = points.stream().map(v -> v.getX()).collect(Collectors.toList());
-			List<Double> yValues = points.stream().map(v -> v.getY()).collect(Collectors.toList());
-			double top = getXYAverage(points) - (getAverage(xValues) * getAverage(yValues));
-			double bottom = getXup2Average(xValues) - (getAverage(xValues) * getAverage(xValues));
-			slope = top / bottom;
-			slopeDetermine = true;
-		}
-		return slope;
+	private double calculateSlope() {
+		List<Double> xValues = points.stream().map(v -> v.getX()).collect(Collectors.toList());
+		List<Double> yValues = points.stream().map(v -> v.getY()).collect(Collectors.toList());
+		double top = getXYAverage(points) - (getAverage(xValues) * getAverage(yValues));
+		double bottom = getXup2Average(xValues) - (getAverage(xValues) * getAverage(xValues));
+		slopeDetermine = true;
+		return (top / bottom);
 	}
 
-	public double intercept() throws RegressionFailedException {
-		if (!interceptDetermine) {
-			if (!canInterceptCalculated()) {
-				throw new RegressionFailedException();
-			}
-			if (!slopeDetermine) {
-				slope();
-			}
-			List<Double> xValues = points.stream().map(v -> v.getX()).collect(Collectors.toList());
-			List<Double> yValues = points.stream().map(v -> v.getY()).collect(Collectors.toList());
-			intercept = getAverage(yValues) - (slope * getAverage(xValues));
-			interceptDetermine = true;
-		}
-		return intercept;
+	private double calculateIntercept() {
+		List<Double> xValues = points.stream().map(v -> v.getX()).collect(Collectors.toList());
+		List<Double> yValues = points.stream().map(v -> v.getY()).collect(Collectors.toList());
+		interceptDetermine = true;
+		return (getAverage(yValues) - (slope * getAverage(xValues)));
 	}
 
 	private boolean canSlopeCalculated() {
