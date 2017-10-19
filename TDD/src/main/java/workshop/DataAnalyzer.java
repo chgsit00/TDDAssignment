@@ -11,8 +11,11 @@
 package workshop;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import uk.ac.brunel.ee.RereadException;
 import uk.ac.brunel.ee.UnreadException;
@@ -31,16 +34,22 @@ public class DataAnalyzer {
 	public static void main(String[] args) {
 		DataAnalyzer dataAnalyzer = new DataAnalyzer();
 		List<Line> lines = dataAnalyzer.getAllLinesWithAllPoints("data_long.dat");
+		// start needed to analyze the processing time
 		Date start = new Date();
-		// valid und invalid lines zählen
+		// counting valid und invalid lines as well as all slopes and intercepts
 		dataAnalyzer.getInformations(lines);
+		// prints the needed information
 		dataAnalyzer.printInformations();
+		// calculating the proccessing time++++
 		Date end = new Date();
 		long begin = start.getTime();
 		long fin = end.getTime();
 		System.out.println("processing time is " + (fin - begin) + " milliseconds");
+		// ++++++++++++++++++++++++++++++++++++++
 	}
 
+	// PrintInformations-Method
+	// calculates the last informations and prints all needed data
 	private void printInformations() {
 		System.out.println("Total Lines: " + (validLines + invalidLines));
 		System.out.println("Valid Lines: " + validLines);
@@ -53,10 +62,12 @@ public class DataAnalyzer {
 
 	}
 
+	// CalculateMean-Method
 	private double calculateMean(List<Double> list) {
 		return list.stream().mapToDouble(p -> p.doubleValue()).sum() / list.size();
 	}
 
+	// CalculateDeviation-Method
 	private double calculateDeviation(List<Double> list) {
 		double temp = 0;
 		for (Double double1 : list) {
@@ -65,6 +76,8 @@ public class DataAnalyzer {
 		return Math.sqrt(temp / list.size());
 	}
 
+	// GetInformations-Method
+	// gathers all slopes and intercepts as well as the valid and invalid lines
 	private void getInformations(List<Line> lines) {
 		allIntercepts = new ArrayList<>();
 		allSlopes = new ArrayList<>();
@@ -84,10 +97,16 @@ public class DataAnalyzer {
 		}
 	}
 
+	// GetAllLinesWithAllPoints-Method
+	// gets the path of the file which should be read in. This method uses the
+	// provided library.
 	private List<Line> getAllLinesWithAllPoints(String path) {
 		List<Line> lines = new ArrayList<>();
 		double x, y;
-
+		// Map that saves the number of points of a line and the time to read in these
+		// points.
+		Map<Integer, Long> time = new HashMap<>();
+		// date to measure the complete read in time
 		Date start = new Date();
 
 		// Open the file and initialise
@@ -95,6 +114,9 @@ public class DataAnalyzer {
 
 		// Loop over all the lines in the data set
 		while (reader.nextLine()) {
+			// lineStart is used to analyze the time needed to read in the points of every
+			// line
+			Date lineStart = new Date();
 			Line line = new Line();
 			boolean np = true;
 			// Loop over all the points associated with the current line
@@ -116,14 +138,28 @@ public class DataAnalyzer {
 						System.exit(0);
 					}
 				}
+
 			}
 			lines.add(line);
+			// calculating the time to read in the line and the length of the line
+			Date lineEnd = new Date();
+			long lineTime = lineEnd.getTime() - lineStart.getTime();
+			int length = line.length();
+			long long1 = time.get(length) == null ? lineTime : (time.get(length) + lineTime) / 2;
+			// store the two values in the map
+			time.put(length, long1);
 		}
 		// Sort out the summary of the run
 		Date end = new Date();
 		long begin = start.getTime();
 		long fin = end.getTime();
 		System.out.println("read time is " + (fin - begin) + " milliseconds");
+		// print the points and the time to analyze the time per point
+		List<Integer> list = new ArrayList<>(time.keySet());
+		Collections.sort(list);
+		for (Integer integer : list) {
+			System.out.println(integer + " : " + time.get(integer) + " ms");
+		}
 		return lines;
 	}
 }
